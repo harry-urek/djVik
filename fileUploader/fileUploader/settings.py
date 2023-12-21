@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'fileUploader',  # Replace with the actual name of your Django app
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'fileUploader.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'fileUploader'], 
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,9 +117,27 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'your-smtp-host'  # Replace with your SMTP host
+EMAIL_PORT = 587  # Replace with your SMTP port
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'your-email@example.com'  # Replace with your email
+EMAIL_HOST_PASSWORD = 'your-email-password'  # Replace with your email password
+DEFAULT_FROM_EMAIL = 'your-email@example.com'  # Replace with your email
+
+# Django REST Framework settings
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
